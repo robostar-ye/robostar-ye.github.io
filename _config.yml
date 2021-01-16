@@ -103,4 +103,6 @@ theme: hexo-theme-next-7.8.0
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: git_blog@120.79.43.6:/home/git_blog/blog/hexo_site.git
+  branch: master
