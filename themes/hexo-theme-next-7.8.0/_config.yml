@@ -582,7 +582,7 @@ comments:
 
 # Disqus
 disqus:
-  enable: true
+  enable: false
   shortname: robostar
   count: true
   #post_meta_order: 0
@@ -611,9 +611,9 @@ changyan:
 # Valine
 # For more information: https://valine.js.org, https://github.com/xCss/Valine
 valine:
-  enable: false
-  appid: # Your leancloud application appid
-  appkey: # Your leancloud application appkey
+  enable: true
+  appid: upsKGsHKlaWUROlF7QRLjGSi-gzGzoHsz # Your leancloud application appid
+  appkey: cxURlDNkQb3G58qhyxhdb47D # Your leancloud application appkey
   notify: false # Mail notifier
   verify: false # Verification code
   placeholder: Just go go # Comment box placeholder
