@@ -64,10 +64,10 @@ prismjs:
 index_generator:
   path: ''
   per_page: 10
-  order_by: -date
+  order_by: -updated #-date
 
 # Category & Tag
-default_category: uncategorized
+default_category: others #uncategorized
 category_map:
 tag_map:
 
