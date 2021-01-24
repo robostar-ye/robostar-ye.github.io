@@ -8,6 +8,7 @@ tags:
 - C++
 - 侯捷
 - pass value
+description: 听侯捷老师讲C++时记录的一些细节
 ---
 
 ## 
