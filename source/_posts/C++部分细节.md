@@ -57,3 +57,65 @@ description: 听侯捷老师讲C++时记录的一些细节
 
 
 五.  构造函数被放在private里的情况
+
+
+
+六. 传递者无需知道接收者是以何种形式接收
+
+
+
+七. +=计算符的返回值类型的影响
+
+```c++
+template<typename U>
+inline complex<U>& _doapl(complex<U>* ths, const complex<U>& r) {
+    ths->real_ += r.real_;
+    ths->image_ += r.image_;
+
+    return *ths;
+}
+
+template<typename T>
+inline complex<T>& complex<T>::operator+=(const complex<T>& r) {
+
+    return _doapl(this, r);
+}
+```
+
+​		在上述代码中实现了一个complex类的+=符号重载，operator+=作为类的成员函数，除了传入的参数r外，还有一个隐藏的参数this指针，调用_doapl函数时传递了this指针进去。并且可以看到在__doapl函数中完成+=与运算后值是直接赋予this指针的，及A+=B时，最后的结果已经保存在了A里面，因此，此时无论operator+=的返回值是什么都无所谓，可以是void。
+
+​		但是，如果出现连续使用的情况，如：A+=B+=A；那么先进行的是B+=A的运算，之后，在进行A与B+=A这个表达式的运算，如果operator的返回值为void，那么第一个就没有计算对象，编译器就会报错，因为没有定义其他类型与void类型的运算。如图：
+
+```c++
+inline void/*complex<T>&*/ complex<T>::operator+=(const complex<T>& r) {
+
+    return _doapl(this, r);
+```
+
+![void += T](D:\Documents\my_projects\my_blog\source\_posts\C++部分细节\001.png)
+
+编译时报错如下：
+
+```shell
+[ 50%] Building CXX object CMakeFiles/test.dir/sources/test.cpp.obj
+D:\Documents\my_projects\cmake_projects\C++_Primer_5th\sources\test.cpp: In function 'int main()':
+D:\Documents\my_projects\cmake_projects\C++_Primer_5th\sources\test.cpp:17:20: error: no match for 'operator+=' (operand types are 'complex<float>' and 'void')
+     complex_test_1 += complex_test_2 += complex_test_1;
+     ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from D:\Documents\my_projects\cmake_projects\C++_Primer_5th\sources\test.cpp:4:0:
+D:/Documents/my_projects/cmake_projects/C++_Primer_5th/headers/complex.hpp:36:28: note: candidate: void complex<T>::operator+=(const complex<T>&) [with T = float]
+ inline void/*complex<T>&*/ complex<T>::operator+=(const complex<T>& r) {
+                            ^~~~~~~~~~
+D:/Documents/my_projects/cmake_projects/C++_Primer_5th/headers/complex.hpp:36:28: note:   no known conversion for argument 1 from 'void' to 'const complex<float>&'
+D:/Documents/my_projects/cmake_projects/C++_Primer_5th/headers/complex.hpp: In instantiation of 'void complex<T>::operator+=(const complex<T>&) [with T = float]':
+D:\Documents\my_projects\cmake_projects\C++_Primer_5th\sources\test.cpp:17:41:   required from here
+D:/Documents/my_projects/cmake_projects/C++_Primer_5th/headers/complex.hpp:38:26: error: return-statement with a value, in function returning 'void' [-fpermissive]
+     return _doapl(this, r);
+                          ^
+mingw32-make.exe[3]: *** [CMakeFiles\test.dir\build.make:82: CMakeFiles/test.dir/sources/test.cpp.obj] Error 1
+mingw32-make.exe[2]: *** [CMakeFiles\Makefile2:182: CMakeFiles/test.dir/all] Error 2
+mingw32-make.exe[1]: *** [CMakeFiles\Makefile2:189: CMakeFiles/test.dir/rule] Error 2
+mingw32-make.exe: *** [Makefile:176: test] Error 2
+
+```
+
