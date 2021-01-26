@@ -11,7 +11,7 @@ tags:
 description: 听侯捷老师讲C++时记录的一些细节
 ---
 
-一. pass by value vs pass by conference
+## 一. pass by value vs pass by conference
 
 ​		C++引用传值相当于是传的变量的地址，地址在32位编译器中占4字节空间，64位空间中占8字节空间。一般来说，大部分数据所占用的空间都会比这个大，因此侯捷老师在课中推荐大部分情况下传值能采用引用就采用引用，返回值也尽量用引用传。
 
@@ -36,7 +36,7 @@ description: 听侯捷老师讲C++时记录的一些细节
 
 
 
-二 . 同一class的各个objects互为友元
+## 二 . 同一class的各个objects互为友元
 
 ​		定义了两个同一类型的不同对象，不同对象却可以通过方法来访问彼此的私有数据，很多程序员知道可以这样做，但无法合理解释，侯捷老师提出的一个解释是：同一class的各个objects互为友元。
 
@@ -44,27 +44,27 @@ description: 听侯捷老师讲C++时记录的一些细节
 
 
 
-三. const限定
+## 三. const限定
 
 ​		类定义里需要const限定一定const。
 
 
 
-四. 构造函数
+## 四. 构造函数
 
 ​		构造函数尽量使用初始化，而非赋值。
 
 
 
-五.  构造函数被放在private里的情况
+## 五.  构造函数被放在private里的情况
 
 
 
-六. 传递者无需知道接收者是以何种形式接收
+## 六. 传递者无需知道接收者是以何种形式接收
 
 
 
-七. +=计算符的返回值类型的影响
+## 七. +=计算符的返回值类型的影响
 
 ```c++
 template<typename U>
@@ -119,3 +119,20 @@ mingw32-make.exe: *** [Makefile:176: test] Error 2
 
 ```
 
+## 八 . 检测自我赋值（self assignment）
+
+```c++
+String &String::operator=(const String &str) {
+  //!检测自我赋值(self assignment)
+  if (this == &str)
+    return *this;
+
+  delete[] this->m_data_;
+  this->m_data_ = new char [strlen(str.m_data_) + 1];
+  strcpy(this->m_data_, str.m_data_);
+
+  return *this;
+}
+```
+
+​		在这段代码中，如果去掉if那一段，并且传进来来了这个字符串本身，那么将发生自我赋值，及我把我自己赋值给自己；但是我们看一下后面的代码，首先会delete[] this->m_data_，自己被释放掉了，那么后果就是，我原来本身的数据也就丢失了；因此为了避免这一情况，可以先判断是否为自我赋值，如果是直接返回本身即可。
