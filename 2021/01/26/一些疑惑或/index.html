@@ -20,19 +20,26 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="hexo自带文章">
+  <meta name="description" content="一. new的拆分实现​        今天看侯捷老师讲解new的实现过程时，举了一个例子：”Complex* pc &#x3D; new Complex(1,2);”可以等效为如下代码： 1234Complex&lt;float&gt;* pc;void* mem &#x3D; operator new(sizeof(Complex&lt;float&gt;));pc &#x3D; static_cast&lt;Comple">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://example.com/2021/01/15/hello-world/index.html">
+<meta property="og:title" content="关于直接调用构造函数的一些疑惑">
+<meta property="og:url" content="http://example.com/2021/01/26/%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91%E6%88%96/index.html">
 <meta property="og:site_name" content="Robostar">
-<meta property="og:description" content="hexo自带文章">
+<meta property="og:description" content="一. new的拆分实现​        今天看侯捷老师讲解new的实现过程时，举了一个例子：”Complex* pc &#x3D; new Complex(1,2);”可以等效为如下代码： 1234Complex&lt;float&gt;* pc;void* mem &#x3D; operator new(sizeof(Complex&lt;float&gt;));pc &#x3D; static_cast&lt;Comple">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-01-15T16:00:00.000Z">
+<meta property="og:image" content="d:/Documents/my_projects/my_blog/source_posts/一些疑惑/001.png">
+<meta property="article:published_time" content="2021-01-26T04:05:34.000Z">
 <meta property="article:modified_time" content="2021-01-26T12:26:49.589Z">
 <meta property="article:author" content="eshiney">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="侯捷">
+<meta property="article:tag" content="内存分配">
+<meta property="article:tag" content="构造函数">
+<meta property="article:tag" content="指针">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="d:/Documents/my_projects/my_blog/source_posts/一些疑惑/001.png">
 
-<link rel="canonical" href="http://example.com/2021/01/15/hello-world/">
+<link rel="canonical" href="http://example.com/2021/01/26/%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91%E6%88%96/">
 
 
 <script id="page-configurations">
@@ -45,7 +52,7 @@
   };
 </script>
 
-  <title>Hello World | Robostar</title>
+  <title>关于直接调用构造函数的一些疑惑 | Robostar</title>
   
 
 
@@ -166,7 +173,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/15/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/26/%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91%E6%88%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +186,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hello World
+          关于直接调用构造函数的一些疑惑
         </h1>
 
         <div class="post-meta">
@@ -188,16 +195,23 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-01-16 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-16T00:00:00+08:00">2021-01-16</time>
+              <time title="创建时间：2021-01-26 12:05:34 / 修改时间：20:26:49" itemprop="dateCreated datePublished" datetime="2021-01-26T12:05:34+08:00">2021-01-26</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-26 20:26:49" itemprop="dateModified" datetime="2021-01-26T20:26:49+08:00">2021-01-26</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
               </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/%E4%BE%AF%E6%8D%B7%E8%80%81%E5%B8%88%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">侯捷老师视频</span></a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -215,13 +229,12 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2021/01/15/hello-world/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/01/15/hello-world/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/01/26/%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91%E6%88%96/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/01/26/%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91%E6%88%96/" itemprop="commentCount"></span>
     </a>
   </span>
   
   
-            <div class="post-description">hexo自带文章</div>
 
         </div>
       </header>
@@ -232,15 +245,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <h2 id="一-new的拆分实现"><a href="#一-new的拆分实现" class="headerlink" title="一. new的拆分实现"></a>一. new的拆分实现</h2><p>​        今天看侯捷老师讲解new的实现过程时，举了一个例子：”Complex<float>* pc = new Complex(1,2);”可以等效为如下代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Complex&lt;<span class="keyword">float</span>&gt;* pc;</span><br><span class="line"><span class="keyword">void</span>* mem = <span class="keyword">operator</span> <span class="keyword">new</span>(<span class="keyword">sizeof</span>(Complex&lt;<span class="keyword">float</span>&gt;));</span><br><span class="line">pc = <span class="keyword">static_cast</span>&lt;Complex&lt;<span class="keyword">float</span>&gt;*&gt;(mem);</span><br><span class="line">pc-&gt;Complex&lt;<span class="keyword">float</span>&gt;::Complex(<span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<p>​        这段代码再MSVC环境下可顺利编译通过并且可以同重载后的流运算符’’&lt;&lt;”std::cout出来;但是在MGingw64和Ubuntu下就无法编译通过，静态检测也会报错，静态检测报错如下：</p>
+<p><img src="D:\Documents\my_projects\my_blog\source_posts\一些疑惑\001.png"></p>
+<p>编译时报错如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">D:\Documents\my_projects\cmake_projects\my_basic_data_structure\sources\test.cpp: In <span class="keyword">function</span> <span class="string">&#x27;int main()&#x27;</span>:</span><br><span class="line">D:\Documents\my_projects\cmake_projects\my_basic_data_structure\sources\test.cpp:26:23: error: cannot call constructor <span class="string">&#x27;Complex&lt;float&gt;::Complex&#x27;</span> directly</span><br><span class="line">   pc-&gt;Complex&lt;<span class="built_in">float</span>&gt;::Complex(1, 2);</span><br><span class="line">                       ^~~~~~~</span><br><span class="line">mingw32-make.exe[3]: *** [CMakeFiles\test.dir\build.make:82: CMakeFiles/test.dir/sources/test.cpp.obj] Error 1</span><br><span class="line">mingw32-make.exe[2]: *** [CMakeFiles\Makefile2:95: CMakeFiles/test.dir/all] Error 2</span><br><span class="line">mingw32-make.exe[1]: *** [CMakeFiles\Makefile2:102: CMakeFiles/test.dir/rule] Error 2</span><br><span class="line">mingw32-make.exe: *** [Makefile:137: <span class="built_in">test</span>] Error 2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>​        并且在尝试过程中发现，MSVC似乎对构造函数的重复使用比较宽容，即使我已经构造出了一个对象，我通过这个对象重新调用构造函数也不会报错，虽然没有效果，但不影响其余部分的正常运行，而MGingw64似乎就严厉得多，直接编译不通过。</p>
+<p>​        根据上述现象我猜测是MGinw64认为那个构造函数是重复调用的，即这个对象已经被构造出来了，不能再构造，只能通过其他接口函数来修改它的内部参数值。但是为什么MSVC就可以编译通过并构造成功呢?莫非在MSVC看来前面并不能算是构造？这一段均为自己的猜想，我并不确定真正的情况是怎么样的。</p>
 
     </div>
 
@@ -249,17 +261,24 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+              <a href="/tags/%E4%BE%AF%E6%8D%B7/" rel="tag"># 侯捷</a>
+              <a href="/tags/%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/" rel="tag"># 内存分配</a>
+              <a href="/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" rel="tag"># 构造函数</a>
+              <a href="/tags/%E6%8C%87%E9%92%88/" rel="tag"># 指针</a>
+          </div>
 
         
 
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2021/01/16/%E5%8D%9A%E5%AE%A2%E9%87%8D%E6%9E%84/" rel="next" title="博客重构">
-      博客重构 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/01/25/C-%E6%A8%A1%E6%9D%BF%E5%88%9D%E8%AF%95%E5%8F%8A%E4%B8%80%E4%B8%AA%E5%9F%BA%E6%9C%AC%E7%9A%84complex%E7%9A%84%E5%AE%9E%E7%8E%B0/" rel="prev" title="C++模板初试及一个基本的complex的实现">
+      <i class="fa fa-chevron-left"></i> C++模板初试及一个基本的complex的实现
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -319,7 +338,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-new%E7%9A%84%E6%8B%86%E5%88%86%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">一. new的拆分实现</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
