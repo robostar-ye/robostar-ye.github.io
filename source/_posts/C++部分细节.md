@@ -92,7 +92,7 @@ inline void/*complex<T>&*/ complex<T>::operator+=(const complex<T>& r) {
     return _doapl(this, r);
 ```
 
-![void += T](D:\Documents\my_projects\my_blog\source\_posts\C++部分细节\001.png)
+![void += T](C++部分细节/001.png)
 
 编译时报错如下：
 
