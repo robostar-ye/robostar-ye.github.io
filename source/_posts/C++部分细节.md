@@ -58,6 +58,41 @@ description: 听侯捷老师讲C++时记录的一些细节
 
 ## 五.  构造函数被放在private里的情况
 
+​		当我们创建了一个类，但希望这个类只创建一个实例来提供给全局访问，这种设计模式被称为singleton pattern单例模式；定义类如下：
+
+```c++
+class A{
+public:
+    static A& get_instance(){return a;}
+    setup(){...}
+    ...
+private:
+    A();
+    A(const A& rhs);
+    static A a;
+    ...
+}
+```
+
+​		当我们需要使用这个类时，如我们要调用对象a的setup函数，可以同过A::get_instance().setup()来调用。
+
+​		如果我们希望这个对象在调用时才被创建，可以采用如下定义方式：
+
+```c++
+class A{
+public:
+    static A& get_instance(){
+        static A a;
+        return a;}
+    setup(){...}
+    ...
+private:
+    A();
+    A(const A& rhs);
+    ...
+}
+```
+
 
 
 ## 六. 传递者无需知道接收者是以何种形式接收
