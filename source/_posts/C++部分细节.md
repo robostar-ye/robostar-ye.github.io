@@ -92,7 +92,7 @@ inline void/*complex<T>&*/ complex<T>::operator+=(const complex<T>& r) {
     return _doapl(this, r);
 ```
 
-![void += T](C++部分细节/001.png)
+![void += T](./C++部分细节/001.png)
 
 编译时报错如下：
 
@@ -136,3 +136,5 @@ String &String::operator=(const String &str) {
 ```
 
 ​		在这段代码中，如果去掉if那一段，并且传进来来了这个字符串本身，那么将发生自我赋值，及我把我自己赋值给自己；但是我们看一下后面的代码，首先会delete[] this->m_data_，自己被释放掉了，那么后果就是，我原来本身的数据也就丢失了；因此为了避免这一情况，可以先判断是否为自我赋值，如果是直接返回本身即可。
+
+## 九. array new 配合 array delete
