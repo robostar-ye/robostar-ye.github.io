@@ -28,7 +28,7 @@
 <meta property="og:description" content="​         一. 在类中​        C++中static关键词在类中的作用是声明一个静态成员。类的静态成员不与类的对象直接关联，而是与类本身直接关联。其使用方式为：声明成员时在其前加上static限定。 ​        静态数据成员为全体对象所共有，所有对象都可以直接访问它；但是，因为它又不独属于类的任何一个对象，所以在它不会在创建类的对象时被定义，即不会被类的构造函数初始化。而定">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-27T12:36:48.000Z">
-<meta property="article:modified_time" content="2021-01-27T13:42:30.661Z">
+<meta property="article:modified_time" content="2021-01-27T16:07:24.917Z">
 <meta property="article:author" content="eshiney">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="侯捷">
@@ -196,10 +196,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-01-27 20:36:48 / 修改时间：21:42:30" itemprop="dateCreated datePublished" datetime="2021-01-27T20:36:48+08:00">2021-01-27</time>
+              <time title="创建时间：2021-01-27 20:36:48" itemprop="dateCreated datePublished" datetime="2021-01-27T20:36:48+08:00">2021-01-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-28 00:07:24" itemprop="dateModified" datetime="2021-01-28T00:07:24+08:00">2021-01-28</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -250,7 +256,7 @@
 <h2 id="一-在类中"><a href="#一-在类中" class="headerlink" title="一. 在类中"></a>一. 在类中</h2><p>​        C++中static关键词在类中的作用是声明一个静态成员。类的静态成员不与类的对象直接关联，而是与类本身直接关联。其使用方式为：声明成员时在其前加上static限定。</p>
 <p>​        静态数据成员为全体对象所共有，所有对象都可以直接访问它；但是，因为它又不独属于类的任何一个对象，所以在它不会在创建类的对象时被定义，即不会被类的构造函数初始化。而定义类的内部成员数据只是一个声明，并没有被定义，因此，必须在类的外部定义和初始化每个静态成员。</p>
 <p>​        不过，《C++ primer 5th 中文版》在270页提到，“一般情况下，类的静态成员不应该在类的内部初始化。然而，我们可以为静态成员提供const整数类型的内部初始化，不过要求静态成员必须是字面值常量类型的constexpr。初始值必须是常量表达式。 若这个静态成员的应用场景仅限于编译器可以替换它的值的情况时，则一个const或constexpr static不需要分别定义。相反，若它们用于值不能替换的场景中，则该成员必须有一条定义语句。在类的内部提供了一个初始值后，则成员的定义就不能再指定一个初始值了。”那么，其实不管有没有类内初始化，都在外部定义一下该成员就好了。</p>
-<p>​        对于静态函数成员，既可以在类的内部定义也可以在类的外部定义，但在外部定义时，不要重复static关键字。静态成员函数内没有隐式的this指针参数，因此不能在其函数体内使用this指针，且不能将静态成员函数声明为const的（声明为const意味着这个函数不会改变其this指针所属对象的属性，但是静态成员函数不含this指针）。</p>
+<p>​        对于静态函数成员，既可以在类的内部定义也可以在类的外部定义，但在外部定义时，不要重复static关键字。静态成员函数内没有隐式的this指针参数，因此不能在其函数体内使用this指针，即其无法直接处理对象的私有数据（但可以通过非静态成员函数返回引用来改变其值），只能处理静态数据，且不能将静态成员函数声明为const的（声明为const意味着这个函数不会改变其this指针所属对象的属性，但是静态成员函数不含this指针）。调用静态成员函数既可以用对象直接调用，也可以通过类名::函数名来调用。</p>
 <h2 id="二-在局部作用域中定义一个全局变量"><a href="#二-在局部作用域中定义一个全局变量" class="headerlink" title="二. 在局部作用域中定义一个全局变量"></a>二. 在局部作用域中定义一个全局变量</h2><p>​        每一个变量都有的它的生命周期，当一个变量在形参或函数体内被定义时，程序出了函数体后这个变量的生命也就结束了，将会被销毁，这种变量称之为局部变量；但如果加上static关键词的限制则可以无视此规则，将成为一个局部静态对象，生命周期为从它被定义开始到程序终止。</p>
 
     </div>
@@ -280,7 +286,10 @@
     <a href="/2021/01/26/%E5%85%B3%E4%BA%8E%E7%9B%B4%E6%8E%A5%E8%B0%83%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91/" rel="prev" title="关于直接调用构造函数的一些疑惑">
       <i class="fa fa-chevron-left"></i> 关于直接调用构造函数的一些疑惑
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/27/C-ood-%E4%B9%8B%E7%BB%84%E5%90%88%E4%B8%8E%E7%BB%A7%E6%89%BF/" rel="next" title="C++ ood 之组合与继承">
+      C++ ood 之组合与继承 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -354,7 +363,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -367,7 +376,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
