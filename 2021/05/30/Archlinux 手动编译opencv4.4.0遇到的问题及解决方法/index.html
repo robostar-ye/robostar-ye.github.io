@@ -20,15 +20,22 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Robostar">
-<meta property="og:url" content="http://example.com/categories/C/index.html">
+  <meta name="description" content="重新构建我的博客的流程，留下作为参考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Archlinux 手动编译opencv4.4.0遇到的问题及解决方法">
+<meta property="og:url" content="http://example.com/2021/05/30/Archlinux%20%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91opencv4.4.0%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="Robostar">
+<meta property="og:description" content="重新构建我的博客的流程，留下作为参考">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-05-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-30T16:06:23.905Z">
 <meta property="article:author" content="eshiney">
+<meta property="article:tag" content="opencv4">
+<meta property="article:tag" content="pytorch">
+<meta property="article:tag" content="archlinux">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/categories/C/">
+<link rel="canonical" href="http://example.com/2021/05/30/Archlinux%20%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91opencv4.4.0%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -36,12 +43,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>分类: C++ | Robostar</title>
+  <title>Archlinux 手动编译opencv4.4.0遇到的问题及解决方法 | Robostar</title>
   
 
 
@@ -155,157 +162,126 @@
         <div class="content-wrap">
           
 
-          <div class="content category">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/30/Archlinux%20%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91opencv4.4.0%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="eshiney">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Robostar">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Archlinux 手动编译opencv4.4.0遇到的问题及解决方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-31 00:00:00 / 修改时间：00:06:23" itemprop="dateCreated datePublished" datetime="2021-05-31T00:00:00+08:00">2021-05-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" itemprop="url" rel="index"><span itemprop="name">开发环境配置</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">C++
-          <small>分类</small>
-        </h2>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/05/30/Archlinux%20%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91opencv4.4.0%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/05/30/Archlinux%20%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91opencv4.4.0%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <div class="post-description">重新构建我的博客的流程，留下作为参考</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
-    </div>
+        <h2 id="1-gcc版本问题"><a href="#1-gcc版本问题" class="headerlink" title="1. gcc版本问题"></a>1. gcc版本问题</h2><p>​    由于archlinx的版本更新过快，cuda以及opencv一些内容还不支持gcc10，所以在cmake前需要手动指定gcc版本，在这里我用的是gcc8。</p>
+<p>另外，推荐使用下面这条指令，可以同时安装cudnn与cuda，并且顺带会安装上其依赖项gcc8，解决系统自带gcc版本过高的问题。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S cudnn7-cuda10.1</span><br></pre></td></tr></table></figure>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-01-27T23:14:17+08:00"
-              content="2021-01-27">
-          01-27
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/01/27/C-ood-%E4%B9%8B%E7%BB%84%E5%90%88%E4%B8%8E%E7%BB%A7%E6%89%BF/" itemprop="url">
-            <span itemprop="name">C++ ood 之组合与继承</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-01-27T20:36:48+08:00"
-              content="2021-01-27">
-          01-27
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/01/27/static-%E5%85%B3%E9%94%AE%E8%AF%8D%E6%8E%A2%E7%A9%B6/" itemprop="url">
-            <span itemprop="name">static 关键词探究</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-01-26T12:05:34+08:00"
-              content="2021-01-26">
-          01-26
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/01/26/%E5%85%B3%E4%BA%8E%E7%9B%B4%E6%8E%A5%E8%B0%83%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91/" itemprop="url">
-            <span itemprop="name">关于直接调用构造函数的一些疑惑</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-01-25T23:25:05+08:00"
-              content="2021-01-25">
-          01-25
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/01/25/C-%E6%A8%A1%E6%9D%BF%E5%88%9D%E8%AF%95%E5%8F%8A%E4%B8%80%E4%B8%AA%E5%9F%BA%E6%9C%AC%E7%9A%84complex%E7%9A%84%E5%AE%9E%E7%8E%B0/" itemprop="url">
-            <span itemprop="name">C++模板初试及一个基本的complex的实现</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-01-24T23:24:49+08:00"
-              content="2021-01-24">
-          01-24
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/01/24/C++%E9%83%A8%E5%88%86%E7%BB%86%E8%8A%82/" itemprop="url">
-            <span itemprop="name">C++部分细节</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-01-18T23:33:27+08:00"
-              content="2021-01-18">
-          01-18
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/01/18/1.4.3%20%E8%AF%BB%E5%8F%96%E6%95%B0%E9%87%8F%E4%B8%8D%E5%AE%9A%E7%9A%84%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE/" itemprop="url">
-            <span itemprop="name">1.4.3 读取数量不定的输入数据</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
+<h2 id="2-自编译opencv与arch源的opencv冲突问题"><a href="#2-自编译opencv与arch源的opencv冲突问题" class="headerlink" title="2. 自编译opencv与arch源的opencv冲突问题"></a>2. 自编译opencv与arch源的opencv冲突问题</h2><p>​    archlinux提供了一个python-pytorch-opt-cuda-1.8.1-6包，可以滚动更新使用最新的pytorch，但是它依赖于arch源提供的opencv。我自己编译时选择了generate pkgconfig，这样会与arch源的pkgconfig冲突。</p>
+<p>​    一个解决方案是将自己编译的opencv生成opencv4.pc改名，避免冲突，改名同时需要将/etc/ld.so.conf.d/opencv4.conf改为同名.</p>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/opencv4/" rel="tag"># opencv4</a>
+              <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+              <a href="/tags/archlinux/" rel="tag"># archlinux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/27/C-ood-%E4%B9%8B%E7%BB%84%E5%90%88%E4%B8%8E%E7%BB%A7%E6%89%BF/" rel="prev" title="C++ ood 之组合与继承">
+      <i class="fa fa-chevron-left"></i> C++ ood 之组合与继承
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -352,6 +328,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-gcc%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">1. gcc版本问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%87%AA%E7%BC%96%E8%AF%91opencv%E4%B8%8Earch%E6%BA%90%E7%9A%84opencv%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">2. 自编译opencv与arch源的opencv冲突问题</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
