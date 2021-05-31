@@ -7,7 +7,7 @@ tags:
 - archlinux
 categories: 
 - 开发环境配置
-description: 重新构建我的博客的流程，留下作为参考
+description: 在archlinux编译opencv遇到的一些问题
 ---
 
 ## 1. gcc版本问题
