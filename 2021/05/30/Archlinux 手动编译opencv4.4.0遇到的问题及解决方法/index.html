@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.3.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -28,7 +28,7 @@
 <meta property="og:description" content="在archlinux编译opencv遇到的一些问题">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-05-30T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-05-31T13:04:02.044Z">
+<meta property="article:modified_time" content="2021-05-31T13:25:31.481Z">
 <meta property="article:author" content="eshiney">
 <meta property="article:tag" content="opencv4">
 <meta property="article:tag" content="pytorch">
@@ -193,7 +193,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-05-31 00:00:00 / 修改时间：21:04:02" itemprop="dateCreated datePublished" datetime="2021-05-31T00:00:00+08:00">2021-05-31</time>
+              <time title="创建时间：2021-05-31 00:00:00 / 修改时间：21:25:31" itemprop="dateCreated datePublished" datetime="2021-05-31T00:00:00+08:00">2021-05-31</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -241,6 +241,7 @@
         <h2 id="1-gcc版本问题"><a href="#1-gcc版本问题" class="headerlink" title="1. gcc版本问题"></a>1. gcc版本问题</h2><p>​    由于archlinx的版本更新过快，cuda以及opencv一些内容还不支持gcc10，所以在cmake前需要手动指定gcc版本，在这里我用的是gcc8。</p>
 <p>另外，推荐使用下面这条指令，可以同时安装cudnn与cuda，并且顺带会安装上其依赖项gcc8，解决系统自带gcc版本过高的问题。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S cudnn7-cuda10.1</span><br></pre></td></tr></table></figure>
+
 
 
 <h2 id="2-自编译opencv与arch源的opencv冲突问题"><a href="#2-自编译opencv与arch源的opencv冲突问题" class="headerlink" title="2. 自编译opencv与arch源的opencv冲突问题"></a>2. 自编译opencv与arch源的opencv冲突问题</h2><p>​    archlinux提供了一个python-pytorch-opt-cuda-1.8.1-6包，可以滚动更新使用最新的pytorch，但是它依赖于arch源提供的opencv。我自己编译时选择了generate pkgconfig，这样会与arch源的pkgconfig冲突。</p>

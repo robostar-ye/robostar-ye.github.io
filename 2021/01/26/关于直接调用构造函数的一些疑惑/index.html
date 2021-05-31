@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.3.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/01/26/%E5%85%B3%E4%BA%8E%E7%9B%B4%E6%8E%A5%E8%B0%83%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91/%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91/001.png">
 <meta property="article:published_time" content="2021-01-26T04:05:34.000Z">
-<meta property="article:modified_time" content="2021-05-31T13:04:02.048Z">
+<meta property="article:modified_time" content="2021-05-31T13:25:31.481Z">
 <meta property="article:author" content="eshiney">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="侯捷">
@@ -203,7 +203,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-31 21:04:02" itemprop="dateModified" datetime="2021-05-31T21:04:02+08:00">2021-05-31</time>
+                <time title="修改时间：2021-05-31 21:25:31" itemprop="dateModified" datetime="2021-05-31T21:25:31+08:00">2021-05-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -253,10 +253,12 @@
       
         <h2 id="一-new的拆分实现"><a href="#一-new的拆分实现" class="headerlink" title="一. new的拆分实现"></a>一. new的拆分实现</h2><p>​        今天看侯捷老师讲解new的实现过程时，举了一个例子：”Complex<float>* pc = new Complex(1,2);”可以等效为如下代码：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Complex&lt;<span class="keyword">float</span>&gt;* pc;</span><br><span class="line"><span class="keyword">void</span>* mem = <span class="keyword">operator</span> <span class="keyword">new</span>(<span class="keyword">sizeof</span>(Complex&lt;<span class="keyword">float</span>&gt;));</span><br><span class="line">pc = <span class="keyword">static_cast</span>&lt;Complex&lt;<span class="keyword">float</span>&gt;*&gt;(mem);</span><br><span class="line">pc-&gt;Complex&lt;<span class="keyword">float</span>&gt;::Complex(<span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
 <p>​        这段代码再MSVC环境下可顺利编译通过并且可以同重载后的流运算符’’&lt;&lt;”std::cout出来;但是在MGingw64和Ubuntu下就无法编译通过，静态检测也会报错，静态检测报错如下：</p>
 <p><img src="./%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91/001.png"></p>
 <p>编译时报错如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">D:\Documents\my_projects\cmake_projects\my_basic_data_structure\sources\test.cpp: In <span class="keyword">function</span> <span class="string">&#x27;int main()&#x27;</span>:</span><br><span class="line">D:\Documents\my_projects\cmake_projects\my_basic_data_structure\sources\test.cpp:26:23: error: cannot call constructor <span class="string">&#x27;Complex&lt;float&gt;::Complex&#x27;</span> directly</span><br><span class="line">   pc-&gt;Complex&lt;<span class="built_in">float</span>&gt;::Complex(1, 2);</span><br><span class="line">                       ^~~~~~~</span><br><span class="line">mingw32-make.exe[3]: *** [CMakeFiles\test.dir\build.make:82: CMakeFiles/test.dir/sources/test.cpp.obj] Error 1</span><br><span class="line">mingw32-make.exe[2]: *** [CMakeFiles\Makefile2:95: CMakeFiles/test.dir/all] Error 2</span><br><span class="line">mingw32-make.exe[1]: *** [CMakeFiles\Makefile2:102: CMakeFiles/test.dir/rule] Error 2</span><br><span class="line">mingw32-make.exe: *** [Makefile:137: <span class="built_in">test</span>] Error 2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>​        并且在尝试过程中发现，MSVC似乎对构造函数的重复使用比较宽容，即使我已经构造出了一个对象，我通过这个对象重新调用构造函数也不会报错，虽然没有效果，但不影响其余部分的正常运行，而MGingw64似乎就严厉得多，直接编译不通过。</p>
 <p>​        根据上述现象我猜测是MGinw64认为那个构造函数是重复调用的，即这个对象已经被构造出来了，不能再构造，只能通过其他接口函数来修改它的内部参数值。但是为什么MSVC就可以编译通过并构造成功呢?莫非在MSVC看来前面并不能算是构造？这一段均为自己的猜想，我并不确定真正的情况是怎么样的。</p>
 
